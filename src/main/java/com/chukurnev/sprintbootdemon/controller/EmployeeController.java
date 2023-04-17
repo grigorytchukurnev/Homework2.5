@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -32,15 +33,11 @@ public class EmployeeController {
 
     @GetMapping("/find")
     public Employee findEmployee(@RequestParam String firstName, @RequestParam String lastName){
-         Employee employee = employeeService.findEmployee(firstName, lastName);
-         if (employee == null){
-             throw new EmployeeNotFoundException();
-         }
-         return employee;
+         return employeeService.findEmployee(firstName, lastName);
     }
 
     @GetMapping
-    public List<Employee> grtAllEmployees(){
+    public Collection<Employee> grtAllEmployees(){
         return employeeService.getAllEmployees();
     }
 }

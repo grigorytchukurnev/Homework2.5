@@ -1,5 +1,6 @@
 package com.chukurnev.sprintbootdemon.model;
 
+import java.beans.Transient;
 import java.util.Objects;
 
 public class Employee {
@@ -25,6 +26,11 @@ public class Employee {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Transient
+    public String getFullName(){
+        return firstName + lastName;
     }
 
     @Override
