@@ -1,6 +1,5 @@
 package com.chukurnev.sprintbootdemon.controller;
 
-import com.chukurnev.sprintbootdemon.exception.EmployeeNotFoundException;
 import com.chukurnev.sprintbootdemon.model.Employee;
 import com.chukurnev.sprintbootdemon.service.EmployeeService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
-import java.util.List;
 
 @RestController
 @RequestMapping("/employees")
@@ -22,8 +20,12 @@ public class EmployeeController {
     }
 
     @GetMapping("/add")
-    public Employee addEmployee(@RequestParam String firstName, @RequestParam String lastName){
-        return employeeService.addEmployee(firstName, lastName);
+    public Employee addEmployee(
+            @RequestParam String firstName,
+            @RequestParam String lastName,
+            @RequestParam Integer salary,
+            @RequestParam Integer department){
+        return employeeService.addEmployee(firstName, lastName, salary, department );
     }
 
     @GetMapping("/remove")

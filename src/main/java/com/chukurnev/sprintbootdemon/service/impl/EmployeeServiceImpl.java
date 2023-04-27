@@ -18,33 +18,31 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee addEmployee(String firstName, String lastName) {
+    public Employee addEmployee(String firstName, String lastName,int salary, int department) {
+        Employee employee = new  Employee(firstName,lastName,salary,department);
 
-
-         Employee employee = new  Employee(firstName,lastName);
-         if (employees.containsKey(employee.getFullName())){
+         if (employees.containsKey(employee.getFirstName() + employee.getLastName())){
              throw new EmployeeAlreadyAddedException();
          }
 
-         employees.put(employee.getFullName(),employee);
+         employees.put(employee.getFirstName() + employee.getLastName(),employee);
          return employee;
     }
 
     @Override
     public Employee removeEmployee(String firstName, String lastName) {
         Employee employee = findEmployee(firstName,lastName);
-        employees.remove(employee.getFullName());
+        employees.remove(employee.getFirstName() + employee.getLastName());
         return employee;
     }
 
     @Override
     public Employee findEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-
-            if(employees.containsKey(employee.getFullName())){
-                return employees.get(employee.getFullName());
-            }else {
-                throw new EmployeeNotFoundException();
+        String key = firstName + lastName;
+        if(employees.containsKey(key)){
+            return employees.get(key);
+        }else {
+            throw new EmployeeNotFoundException();
             }
         }
 
