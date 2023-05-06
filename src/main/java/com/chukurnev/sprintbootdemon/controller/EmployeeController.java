@@ -2,6 +2,8 @@ package com.chukurnev.sprintbootdemon.controller;
 
 import com.chukurnev.sprintbootdemon.model.Employee;
 import com.chukurnev.sprintbootdemon.service.EmployeeService;
+import com.chukurnev.sprintbootdemon.validaton.EmployeeValidator;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,22 +22,35 @@ public class EmployeeController {
     }
 
     @GetMapping("/add")
-    public Employee addEmployee(
+    public ResponseEntity<Employee> addEmployee(
             @RequestParam String firstName,
             @RequestParam String lastName,
             @RequestParam Integer salary,
-            @RequestParam Integer department){
-        return employeeService.addEmployee(firstName, lastName, salary, department );
+            @RequestParam Integer department
+    ) {
+        if (EmployeeValidator.validate(firstName, lastName)){
+            return ResponseEntity.ok(employeeService.addEmployee(firstName, lastName, salary, department));
+        }
+        return ResponseEntity.badRequest().build();
     }
 
+
     @GetMapping("/remove")
-    public Employee removeEmployee(@RequestParam String firstName, @RequestParam String lastName){
-        return employeeService.removeEmployee(firstName, lastName);
+    public ResponseEntity<Employee> removeEmployee(@RequestParam String firstName, @RequestParam String lastName){
+        if (EmployeeValidator.validate(firstName, lastName)){
+            employeeService.removeEmployee(firstName, lastName);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/find")
-    public Employee findEmployee(@RequestParam String firstName, @RequestParam String lastName){
-         return employeeService.findEmployee(firstName, lastName);
+    public ResponseEntity<Employee> findEmployee(@RequestParam String firstName, @RequestParam String lastName
+    ){
+        if (EmployeeValidator.validate(firstName, lastName)){
+            return ResponseEntity.ok(employeeService.findEmployee(firstName, lastName));
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping
